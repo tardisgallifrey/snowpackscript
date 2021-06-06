@@ -1,0 +1,123 @@
+#!/bin/bash
+
+#A script to automate basic Reactjs project creation
+#with Snowpack bundler
+
+if [[ $# -ne 1 ]]
+  then
+    echo "Usage: create-react-snowpack myprojectfile"
+    exit
+fi
+
+if [[ -d $1 ]]
+    then 
+        echo "Folder already exists.  Will not overwrite."
+        exit
+fi
+echo "Creating directories: $1 , $1/public, and $1/src"
+mkdir $1
+sleep 1
+mkdir $1/src
+sleep 1
+mkdir $1/public
+sleep 1
+cd $1
+sleep 1
+
+## Create package.json
+## npm will add more
+echo "Creating and filling package.json with starter code"
+echo "{
+   \"scripts\": {
+   \"start\": \"snowpack dev\",
+   \"build\": \"snowpack build\"
+   }
+}" > package.json
+sleep 1
+
+## Fill index.html in ./public
+echo "Creating and filling index.html with starter code."
+echo "<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <title>My React Project</title>
+</head>
+<body>
+    <div id=\"app\"></div>
+    <script type=\"module\" src=\"/dist/index.js\"></script>
+</body>
+</html>" > ./public/index.html
+sleep 1
+
+##Fill index.jsx in ./src
+echo "Creating and filling index.jsx with starter code."
+echo "import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.jsx';
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('app')
+);" > ./src/index.jsx
+sleep 1
+
+##Fill App.jsx in ./src
+echo "Creating and filling App.jsx with starter code."
+echo "import React from 'react';
+import RecipeTitle from './RecipeTitle'
+import './index.css'
+
+function App() {
+    return (
+        <article>
+            <h1>Hello World!</h1>
+            <RecipeTitle />
+        </article>
+    )
+}
+
+export default App;" > ./src/App.jsx
+sleep 1
+
+##Fill index.css in ./src
+echo "Creating and filling index.css with starter code."
+echo "article {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+}" > ./src/index.css
+sleep 1
+
+## Fill RecipeTitle.jsx in ./src
+echo "Creating and filling RecipeTitle.jsx with starter code."
+echo "This gives you one React Component to start with."
+echo "import React from 'react';
+
+function RecipeTitle() {
+    const title = 'A Basic Component';
+    return (
+        <h2>{ title }</h2>
+    )
+};
+export default RecipeTitle;" > ./src/RecipeTitle.jsx
+
+
+##Fill snowpack.config.js in ./
+echo "Creating and filling snowpack.config.js with starter code."
+echo "module.exports = {
+    mount: {
+        'public': '/',
+        'src': '/dist'
+    }
+}" > snowpack.config.js
+
+echo "Now to install snowpack, react, and react-dom"
+npm install --save-dev snowpack
+npm install react react-dom
+echo "If you got this far, cd to $1 and you should be able to do: npm start"
+
+
+
+
+
